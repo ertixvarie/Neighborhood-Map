@@ -20,7 +20,7 @@
   </div>
       <div>
         <ul data-bind='foreach: markers'>
-          <li data-bind="text: title"></li>
+          <li data-bind='visible: visiblity = true, text: title'></li>
         </ul>
       </div>
     <div id='map'>

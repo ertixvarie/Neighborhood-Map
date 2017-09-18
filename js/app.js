@@ -64,7 +64,7 @@ $(function() {
     var map;
 
         var locations = [
-            {title: 'House of Tai Pei', location: {lat: 35.4404048, lng: -80.8740417}, address: '', type: chinese},
+            {title: 'House of Tai Pei', location: {lat: 35.4404048, lng: -80.8740417}, address: '', type: 'chinese'},
         /*    {title: 'Wan-Fu Quality Chinese Cuisine', location: {lat: 35.0886242, lng: -80.863675}, address: '', type: chinese},
             {title: 'Soho Bistro', location: {lat: 35.2275837, lng: -80.9104183}, address: '', type: chinese},
             {title: 'Shun Lee Palace', location: {lat: 35.1774188, lng: -80.8687371}, address: '', type: chinese},
@@ -74,21 +74,29 @@ $(function() {
             {title: 'The Cowfish Sushi Burger Bar', location: {lat: 35.152821, lng: -80.8279543}, address: '', type: burger},
             {title: 'Zacks Hamburgers', location: {lat: 35.1883115, lng: -80.8749783}, address: '', type: burger},
             {title: 'Burger 21', location: {lat: 35.0541815, lng: -80.9225526}, address: '', type: burger},*/
-            {title: 'Bad Daddy\'s Burger Bar', location: {lat: 35.1989426, lng: -80.9109233}, address: '', type: burgers}
+            {title: 'Bad Daddy\'s Burger Bar', location: {lat: 35.1989426, lng: -80.9109233}, address: '', type: 'burgers'}
         ];
 
     function AppViewModel() {
         //create google map element and pass in default settings
         map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 10,
-        center: {lat: 35.2270869, lng: -80.8431267},
-        mapTypeControl: false
+            zoom: 10,
+            center: {lat: 35.2270869, lng: -80.8431267},
+            mapTypeControl: false
         });
         var self = this;
         //default locations
         self.markers = ko.observableArray([]);
+        self.toggleType = ko.observable();
         //when filter is clicked change type of location displayed
         this.selectType = function(data, event) {
+            self.markers().forEach(function(object){
+                if (object.type != event.currentTarget.id) {
+                    object.setVisible(false);
+                    object.visibility(false);
+                }
+
+            })
             console.log(event.currentTarget.id + " was clicked");
         }
 
@@ -112,7 +120,9 @@ $(function() {
                                 position: object.location,
                                 address: object.address,
                                 title: object.title,
+                                type: object.type,
                                 animation: google.maps.Animation.DROP,
+                                visibility: ko.observable(true)
                                 })
                                     self.markers.push(marker);
                                     marker.addListener('click', function() {
@@ -129,6 +139,7 @@ $(function() {
 
         function populateInfoWindow(marker, infowindow) {
             if (infowindow.marker !=marker) {
+              console.log(infowindow)
                 infowindow.marker = marker;
                 infowindow.setContent('<div>'+marker.title+'</div>'+'<div>'+marker.address+'</div');
                 infowindow.open(map, marker);
@@ -138,10 +149,6 @@ $(function() {
             }
           }
             getAddresses();
-/*
-            document.getElementById('burgers').addEventListener('click', showBurgers);
-            document.getElementById('chinese').addEventListener('click', showChinese);
-*/
     }
 
 // Activates knockout.js
