@@ -1,6 +1,7 @@
 //////////////////////////////////////////////////////////
 ////////////////* Greedy Nav JS Components*///////////////
 //Attribution: https://github.com/lukejacksonn/GreedyNav//
+/*
 $(function() {
 
   var $nav = $('nav.greedy');
@@ -57,6 +58,7 @@ $(function() {
   check();
 
 });
+*/
 /*/////////////////////End/////////////////////////////*/
 
     //var locations = ko.observableArray([]);
@@ -65,15 +67,15 @@ $(function() {
 
         var locations = [
             {title: 'House of Tai Pei', location: {lat: 35.4404048, lng: -80.8740417}, address: '', type: 'chinese'},
-        /*    {title: 'Wan-Fu Quality Chinese Cuisine', location: {lat: 35.0886242, lng: -80.863675}, address: '', type: chinese},
-            {title: 'Soho Bistro', location: {lat: 35.2275837, lng: -80.9104183}, address: '', type: chinese},
-            {title: 'Shun Lee Palace', location: {lat: 35.1774188, lng: -80.8687371}, address: '', type: chinese},
-            {title: 'Baoding Restuarant', location: {lat: 35.1474744, lng: -80.9029179}, address: '', type: chinese},
+        /*    {title: 'Wan-Fu Quality Chinese Cuisine', location: {lat: 35.0886242, lng: -80.863675}, address: '', type: 'chinese'},
+            {title: 'Soho Bistro', location: {lat: 35.2275837, lng: -80.9104183}, address: '', type: 'chinese'},
+            {title: 'Shun Lee Palace', location: {lat: 35.1774188, lng: -80.8687371}, address: '', type: 'chinese'},
+            {title: 'Baoding Restuarant', location: {lat: 35.1474744, lng: -80.9029179}, address: '', type: 'chinese'},
 
-            {title: 'American Burger Company', location: {lat: 35.1521548, lng: -80.9117661}, address: '', type: burger},
-            {title: 'The Cowfish Sushi Burger Bar', location: {lat: 35.152821, lng: -80.8279543}, address: '', type: burger},
-            {title: 'Zacks Hamburgers', location: {lat: 35.1883115, lng: -80.8749783}, address: '', type: burger},
-            {title: 'Burger 21', location: {lat: 35.0541815, lng: -80.9225526}, address: '', type: burger},*/
+            {title: 'American Burger Company', location: {lat: 35.1521548, lng: -80.9117661}, address: '', type: 'burgers'},
+            {title: 'The Cowfish Sushi Burger Bar', location: {lat: 35.152821, lng: -80.8279543}, address: '', type: 'burgers'},
+            {title: 'Zacks Hamburgers', location: {lat: 35.1883115, lng: -80.8749783}, address: '', type: 'burgers'},
+            {title: 'Burger 21', location: {lat: 35.0541815, lng: -80.9225526}, address: '', type: 'burgers'},*/
             {title: 'Bad Daddy\'s Burger Bar', location: {lat: 35.1989426, lng: -80.9109233}, address: '', type: 'burgers'}
         ];
 
@@ -87,17 +89,24 @@ $(function() {
         var self = this;
         //default locations
         self.markers = ko.observableArray([]);
-        self.toggleType = ko.observable();
+
         //when filter is clicked change type of location displayed
         this.selectType = function(data, event) {
             self.markers().forEach(function(object){
                 if (object.type != event.currentTarget.id) {
+                    console.log(event.currentTarget.id + " was clicked");
+                    //filter map markers
                     object.setVisible(false);
+                    //filter list view
                     object.visibility(false);
-                }
-
+                    console.log("if! set object visibility to: " + object.visibility())
+                } else {
+                      object.setVisible(true);
+                      object.visibility(true);
+                      console.log("else! set object visibility to: " + object.visibility())
+                  }
             })
-            console.log(event.currentTarget.id + " was clicked");
+
         }
 
         function getAddresses(){
@@ -105,14 +114,17 @@ $(function() {
             var infowindow = new google.maps.InfoWindow();
             var CLIENT_ID = "CEYUGBQFIGLCH40JGX3WCRRLQN54TYF2FRCW2KPBANYGECV0"
             var CLIENT_SECRET = "OX2LVD1ENKIZ0YX0QGFPVFYNZMCNI4G3E0UXNDOOYWEKKQOJ"
+            //use Promises to make API asynchronously.
                 return Promise.resolve(promises)
                 .then(function(value){
+                    //loop through default locations and get params to make API call to Foursquare
                     locations.forEach(function(object) {
                         var position = object.location;
                         var title = object.title;
                         var foursquareResults = "https://api.foursquare.com/v2/venues/search?ll="+position.lat+","+position.lng+"&client_id="+CLIENT_ID+"&client_secret="+CLIENT_SECRET+"&query="+title+"&v=20170801&m=foursquare&limit=1";
                         var getPromise = fetch(foursquareResults)
                         .then(function(response) { return response.json();})
+                            //collect data from API and location array to build map Markers
                             .then(function(data) {
                                 object.address = data.response.venues[0].location.formattedAddress[0];
                                 var marker = new google.maps.Marker({
