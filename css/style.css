@@ -12,8 +12,61 @@ li {
 #map {
     height: 100%;
 }
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: #1bc2a2;
+}
+
+ul li {
+  display: block;
+  position: relative;
+  float: left;
+  background: #1bc2a2;
+}
+
+li ul { display: none; }
+
+ul li a {
+  display: block;
+  padding: 1em;
+  text-decoration: none;
+  white-space: nowrap;
+  color: #fff;
+}
+
+ul li a:hover { background: #2c3e50; }
+
+li:hover > ul {
+  display: block;
+  position: absolute;
+}
+
+li:hover li { float: none; }
+
+li:hover a { background: #1bc2a2; }
+
+li:hover li a:hover { background: #2c3e50; }
+
+.main-navigation li ul li { border-top: 0; }
+
+ul ul ul {
+  left: 100%;
+  top: 0;
+}
+
+ul:before,
+ul:after {
+  content: " "; /* 1 */
+  display: table; /* 2 */
+}
+
+ul:after { clear: both; }
 /*//////////////Greedy Nav CSS Compenents////////////*/
 /*Attribution: https://github.com/lukejacksonn/GreedyNav/*/
+/*
 nav.greedy {
   position: relative;
   height: 60px;
@@ -81,7 +134,7 @@ ul.links {
   overflow: hidden;
 }
 
-/* padding between anchor elements*/
+
 ul.links li {
   flex: none;
   padding: 1rem;
@@ -112,5 +165,5 @@ ul.hidden-links li {
   padding: 1rem;
 }
 
-/*////////////////////////End////////////////////////*/
+/////////////////////////End////////////////////////
 
