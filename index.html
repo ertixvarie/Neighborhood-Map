@@ -11,19 +11,18 @@
     <h5>Utilizing Foursquare API</h5>
       <ul class='links'>
         <li><a href="#" id='chinese' data-bind='click: selectType'>Chinese</a></li>
+            <ul class="" data-bind='foreach: markers'>
+              <li data-bind='visible: visibility, text: title'></li>
+        </ul>
         <li><a href="#" id='burgers' data-bind='click: selectType'>Burgers</a></li>
+            <ul class="" data-bind='foreach: markers'>
+              <li data-bind='visible: visibility, text: title'></li>
       </ul>
-      <button>Menu</button>
       <ul class='hidden-links hidden'></ul>
     </nav>
     </div>
   </div>
-      <div>
-        <ul data-bind='foreach: markers'>
-          <li data-bind='visible: visiblity = true, text: title'></li>
-        </ul>
-      </div>
-    <div id='map'>
+  <div id='map'>
       Attempted to Load Map
   </div>
   </body>
