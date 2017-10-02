@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='uts-8'>
+    <link rel='stylesheet' href='css/style.css'>
+  </head>
+  <body>
+    <header class="navigator">
+      <nav class='flex-container'>
+          <div class="header-container">
+            <h1 class='flex-header-item'>Neighborhood Grub</h1>
+            <h5 class='flex-header-item'>Utilizing Foursquare API</h5>
+          </div>
+            <div class="button-container">
+              <button class='flex-item' href="#" id='all' data-bind='click: selectType'>All</button>
+              <button class='flex-item' href="#" id='chinese' data-bind='click: selectType'>Chinese</button>
+              <button class='flex-item' href="#" id='burgers' data-bind='click: selectType'>Burgers</button>
+            </div>
+      </nav>
+    </header>
+      <div class='list-view-container'>
+        <ul class='list-view' data-bind='foreach: markers'>
+          <li data-bind='visible: visibility, text: title, click: $parent.selectMarker'></li>
+        </ul>
+      </div>
+
+  <div id='map'>
+      Attempted to Load Map
+  </div>
+  </body>
+
+    <script src='js/knockout-3.4.2.js'></script>
+    <script src='js/app.js'></script>
+    <script async defer src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCmoYzRDSKh1EEKS9N8UHnB6h9sfDgdHck&v=3&callback=initMap'></script>
+</html>
