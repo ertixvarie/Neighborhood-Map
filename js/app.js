@@ -1,65 +1,4 @@
-//////////////////////////////////////////////////////////
-////////////////* Greedy Nav JS Components*///////////////
-//Attribution: https://github.com/lukejacksonn/GreedyNav//
-/*
-$(function() {
 
-  var $nav = $('nav.greedy');
-  var $btn = $('nav.greedy button');
-  var $vlinks = $('nav.greedy .links');
-  var $hlinks = $('nav.greedy .hidden-links');
-
-  var numOfItems = 0;
-  var totalSpace = 0;
-  var breakWidths = [];
-
-  // Get initial state
-  $vlinks.children().outerWidth(function(i, w) {
-    totalSpace += w;
-    numOfItems += 1;
-    breakWidths.push(totalSpace);
-  });
-
-  var availableSpace, numOfVisibleItems, requiredSpace;
-
-  function check() {
-
-    // Get instant state
-    availableSpace = $vlinks.width() - 10;
-    numOfVisibleItems = $vlinks.children().length;
-    requiredSpace = breakWidths[numOfVisibleItems - 1];
-
-    // There is not enought space
-    if (requiredSpace > availableSpace) {
-      $vlinks.children().last().prependTo($hlinks);
-      numOfVisibleItems -= 1;
-      check();
-      // There is more than enough space
-    } else if (availableSpace > breakWidths[numOfVisibleItems]) {
-      $hlinks.children().first().appendTo($vlinks);
-      numOfVisibleItems += 1;
-    }
-    // Update the button accordingly
-    $btn.attr("count", numOfItems - numOfVisibleItems);
-    if (numOfVisibleItems === numOfItems) {
-      $btn.addClass('hidden');
-    } else $btn.removeClass('hidden');
-  }
-
-  // Window listeners
-  $(window).resize(function() {
-    check();
-  });
-
-  $btn.on('click', function() {
-    $hlinks.toggleClass('hidden');
-  });
-
-  check();
-
-});
-*/
-/*/////////////////////End/////////////////////////////*/
 
     //var locations = ko.observableArray([]);
 
@@ -90,23 +29,36 @@ $(function() {
         //default locations
         self.markers = ko.observableArray([]);
 
+        this.selectMarker = function(marker, event) {
+        event.target.classList.toggle('list-active');
+        console.log(event.target.classList);
+        if (marker.getAnimation() !== 1) {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+        } else {
+          marker.setAnimation(null);
+        }
+        console.log(marker.getAnimation())
+      }
+
         //when filter is clicked change type of location displayed
         this.selectType = function(data, event) {
+
+          //loop through markers by type and choose which are visible
             self.markers().forEach(function(object){
-                if (object.type != event.currentTarget.id) {
-                    console.log(event.currentTarget.id + " was clicked");
-                    //filter map markers
-                    object.setVisible(false);
-                    //filter list view
-                    object.visibility(false);
-                    console.log("if! set object visibility to: " + object.visibility())
-                } else {
+                if (event.currentTarget.id == "all") {
+                    object.setVisible(true);
+                    object.visibility(true);
+                } else if (object.type == event.currentTarget.id) {
+                      //console.log(event.currentTarget.id + " was clicked");
                       object.setVisible(true);
                       object.visibility(true);
-                      console.log("else! set object visibility to: " + object.visibility())
+                      //console.log("if! set object visibility to: " + object.visibility())
+                } else {
+                      object.setVisible(false);
+                      object.visibility(false);
+                      //console.log("else! set object visibility to: " + object.visibility())
                   }
             })
-
         }
 
         function getAddresses(){
@@ -133,12 +85,14 @@ $(function() {
                                 address: object.address,
                                 title: object.title,
                                 type: object.type,
-                                animation: google.maps.Animation.DROP,
+                                animation: ko.observable(google.maps.Animation.DROP),
                                 visibility: ko.observable(true)
                                 })
                                     self.markers.push(marker);
                                     marker.addListener('click', function() {
                                         populateInfoWindow(this, infowindow);
+                                        bounce(this);
+                                        console.log(this.animation)
                                     });
                             })
                         .then(function() {
@@ -149,14 +103,22 @@ $(function() {
             });
         }
 
+        function bounce(marker){
+            if (marker.getAnimation() !== null) {
+                marker.setAnimation(null);
+            } else {
+                  marker.setAnimation(google.maps.Animation.BOUNCE);
+              }
+        }
+
         function populateInfoWindow(marker, infowindow) {
             if (infowindow.marker !=marker) {
-              console.log(infowindow)
                 infowindow.marker = marker;
                 infowindow.setContent('<div>'+marker.title+'</div>'+'<div>'+marker.address+'</div');
                 infowindow.open(map, marker);
                 infowindow.addListener('closeclick', function() {
-                    infowindow.setMarker = null;
+                    infowindow.close();
+                    //marker.setAnimation(google.maps.Animation.DROP);
               });
             }
           }
