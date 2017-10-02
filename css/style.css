@@ -1,169 +1,91 @@
-html,
-body {
+body{
     font-family: Arial, sans-serif;
     height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
 }
+html {
+  height: 100%;
+}
 li {
   list-style: none;
 }
+.navigator {
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   width: 100%;
+   max-height: 15%;
+   bottom: auto;
+   background: #1D85AE;
+   padding: 0;
+   z-index: 99;
+}
+/* Parent container for navbar*/
+.flex-container {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.header-container{
+  display: flex;
+  justify-content: flex-start;
+  padding: .5em;
+  border-color: black;
+}
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  padding: .5em;
+}
+.button-active {
+  background-color: #55B020;
+}
+button {
+  padding: 1em;
+  border-radius: 6px;
+  width: 150px;
+  margin: 1em;
+  background-color: #C0851F;
+  border-color: black;
+  color: lightgrey;
+}
+button:hover {
+  background-color: #55B020;
+}
+.list-view-container {
+  position: fixed;
+  z-index: 999;
+  box-sizing: border-box;
+  top: 100px;
+  left: 0;
+  max-width: 250px;
+}
+.list-view {
+  display: flex;
+  flex-flow: column;
+  text-align: center;
+}
+.list-active {
+  background-color: lightgrey;
+}
+ul li {
+  background-color: darkgrey;
+  padding: .5em;
+  color: white;
+  flex-shrink: 1;
+  border-radius: 3px;
+}
+ul li:hover {
+  background-color: lightgrey;
+}
 #map {
     height: 100%;
+    position: static;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  background: #1bc2a2;
-}
-
-ul li {
-  display: block;
-  position: relative;
-  float: left;
-  background: #1bc2a2;
-}
-
-li ul { display: none; }
-
-ul li a {
-  display: block;
-  padding: 1em;
-  text-decoration: none;
-  white-space: nowrap;
-  color: #fff;
-}
-
-ul li a:hover { background: #2c3e50; }
-
-li:hover > ul {
-  display: block;
-  position: absolute;
-}
-
-li:hover li { float: none; }
-
-li:hover a { background: #1bc2a2; }
-
-li:hover li a:hover { background: #2c3e50; }
-
-.main-navigation li ul li { border-top: 0; }
-
-ul ul ul {
-  left: 100%;
-  top: 0;
-}
-
-ul:before,
-ul:after {
-  content: " "; /* 1 */
-  display: table; /* 2 */
-}
-
-ul:after { clear: both; }
-/*//////////////Greedy Nav CSS Compenents////////////*/
-/*Attribution: https://github.com/lukejacksonn/GreedyNav/*/
-/*
-nav.greedy {
-  position: relative;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  background: #4c85e0;
-}
-
-nav.greedy h1 {
-  display: flex;
-  align-self: stretch;
-  align-items: center;
-  color: #404040;
-  padding: 0 1.5rem;
-  font-weight: bold;
-}
-
-nav.greedy h5 {
-  position: relative;
-  padding: 0 3rem;
-  color: #404040;
-}
-
-nav.greedy button {
-  align-self: stretch;
-  transition: all .4s ease-out;
-  padding: 0 1rem 0 1.5rem;
-  outline: 0;
-  border: 0;
-  font-size: 0.9rem;
-  font-weight: bold;
-  background: #c8c8c8;
-  color: #404040;
-}
-
-nav.greedy button.hidden {
-  transition: none;
-  border-right: 0.5rem solid #b6b6b6;
-  width: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-nav.greedy button::after {
-  content: attr(count);
-  display: inline-flex;
-  width: 30px;
-  height: 30px;
-  align-items: center;
-  justify-content: center;
-  background: #9f9f9f;
-  color: #f2f2f2;
-  box-shadow: 0 0 1px 0 rgba(0,0,0,0.8);
-  border-radius: 50%;
-  font-size: 14px;
-  line-height: 14px;
-  margin-left: 1rem;
-  margin-right: calc(-1rem + -8px);
-}
-
-ul.links {
-  display: flex;
-  justify-content: flex-end;
-  flex: 1;
-  overflow: hidden;
-}
-
-
-ul.links li {
-  flex: none;
-  padding: 1rem;
-}
-
-ul.links li a {
-  color: black;
-  font-weight: bold;
-}
-
-ul.hidden-links {
-  position: absolute;
-  background: #d8d8d8;
-  right: 0;
-  top: 100%;
-}
-
-ul.hidden-links li a {
-  color: #404040;
-  padding-right: 1rem;
-}
-
-ul.hidden-links.hidden {
-  display: none;
-}
-
-ul.hidden-links li {
-  padding: 1rem;
-}
-
-/////////////////////////End////////////////////////
 
